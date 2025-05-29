@@ -1,0 +1,99 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 05/28/2025 12:44:42 PM
+-- Design Name: 
+-- Module Name: vga_test_pattern_top_tb - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity vga_test_pattern_top_tb is
+--  Port ( );
+end vga_test_pattern_top_tb;
+
+architecture Behavioral of vga_test_pattern_top_tb is
+    -- DUT singals
+    signal clk25MHz : std_logic := '0';
+    signal reset : std_logic := '0';
+    signal hsync : std_logic;
+    signal vsync : std_logic;
+    signal red : std_logic_vector(3 downto 0);
+    signal green : std_logic_vector(3 downto 0);
+    signal blue : std_logic_vector(3 downto 0);
+    
+    constant CLK_period : time := 40 ns;
+    component vga_test_pattern_top
+        port (
+            clk100MHz : in std_logic;
+            reset : in std_logic;
+            vga_hsync : out std_logic;
+            vga_vsync : out std_logic;
+            vga_red : out std_logic_vector(3 downto 0);
+            vga_green : out std_logic_vector(3 downto 0);
+            vga_blue : out std_logic_vector(3 downto 0)
+       ); 
+    end component;
+begin
+    -- clock generation
+    clk_process : process
+    begin
+        while true loop
+            clk25MHz <= '0';
+            wait for CLK_PERIOD/2;
+            clk25MHZ <= '1';
+            wait for CLK_PERIOD/2;
+       end loop;
+   end process;
+   
+   -- UUT instatiation
+   uut: vga_test_pattern_top
+        port map (
+            clk100MHz => clk25MHz,
+            reset => reset,
+            vga_hsync => hsync,
+            vga_vsync => vsync,
+            vga_red => red,
+            vga_green => green,
+            vga_blue => blue
+        );
+        
+   -- Stimulus Process
+   stim_proc: process
+   begin
+        -- Hold reset for a few cycles
+        wait for 1 ms;
+        reset <= '0';
+        
+        -- let it run for a few scanlines
+        wait for 1 ms;
+        
+        -- end simulation
+        wait;
+    end process;
+            
+
+end Behavioral;
