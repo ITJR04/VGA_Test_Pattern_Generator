@@ -1,30 +1,44 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: University of Connecticut
+-- Engineer: Isai Torres
 -- 
 -- Create Date: 05/28/2025 12:44:42 PM
--- Design Name: 
+-- Design Name: VGA Test Pattern Simulation Testbench
 -- Module Name: vga_test_pattern_top_tb - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
+-- Project Name: VGA_Test_Pattern_Zedboard
+-- Target Devices: ZedBoard Zynq-7000 (xc7z020clg484-1)
+-- Tool Versions: Vivado 2024.2, Vivado Simulator or GHDL
 -- Description: 
+--     This is a simple behavioral testbench for the top-level VGA pattern 
+--     generator. It generates a 100 MHz input clock and provides a stimulus 
+--     to observe the output VGA signals, including sync pulses and RGB data.
+-- 
+--     The testbench is used to verify signal correctness in simulation and 
+--     to check timing waveform behavior of hsync, vsync, video_on, and RGB.
+--     No external files or stimulus vectors are needed.
 -- 
 -- Dependencies: 
--- 
+--     - vga_test_pattern_top.vhd
+--     - vga_test_pattern.vhd
+--     - clk_wiz_0 (abstracted out in testbench or replaced with process)
+--
 -- Revision:
 -- Revision 0.01 - File Created
+-- Revision 0.02 - Clock process added, waveform inspection verified
 -- Additional Comments:
--- 
+--     - RGB output can be checked visually in waveform viewer (e.g., GTKWave)
+--     - Simulation time must be extended to see frame behavior (e.g., 1ms+)
+--     - This testbench does not instantiate real Clocking Wizard IP — instead,
+--       clk25MHz is mimicked for simulation purposes if need be
+--
 ----------------------------------------------------------------------------------
 
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
